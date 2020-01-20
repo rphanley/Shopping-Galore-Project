@@ -11,6 +11,15 @@
                 <p class="product-description">{{ product.description }}</p>
                 <p>{{ product.price }}</p>
 
+                <form method="post" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input name="quantity" type="number" min="1" max="999" class="form-control" placeholder="Quantity">
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="submit">Add</button>
+                        </span>
+                    </div>
+                </form>
 
             </div>
         </div>
