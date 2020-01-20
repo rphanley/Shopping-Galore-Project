@@ -1,0 +1,4 @@
+env.py
+.theia/
+__pycache__/
+db.sqlite3
