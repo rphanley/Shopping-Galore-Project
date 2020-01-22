@@ -1,0 +1,1 @@
+web: gunicorn galore.wsgi:application
