@@ -41,7 +41,7 @@
         <div id="alert-message block-message error" id="stripe-error-message"></div>
     </div>
 
-    <div class="form-group col-md-6">
+    <div id="orderForm" class="form-group col-md-6">
         {{ order_form | as_bootstrap }}
     </div>
 
@@ -51,7 +51,8 @@
 
     {% csrf_token %}
     <div class="form-group col-md-12">
-        <input class=" btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment">
+        <input class=" btn btn-primary" id="submit_payment_btn" name="commit" type="submit" value="Submit Payment" onclick="clearStorage()">
     </div>
 </form>
+<script type="text/javascript" src="{% static 'js/galore.js' %}"></script>
 {% endblock %}

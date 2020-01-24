@@ -23,4 +23,14 @@ class OrderForm(forms.ModelForm):
             'town_or_city', 'street_address1', 'street_address2',
             'county'
         )
+        widgets = {
+            'full_name': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"}),
+            'phone_number': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"}),
+            'country': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"}),
+            'postcode': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"}),
+            'town_or_city': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"}),
+            'street_address1': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"}),
+            'street_address2': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"}),
+            'county': forms.Textarea(attrs={'cols': 30, 'rows': 1, 'onblur': "storeFormField()"})
+            }
         
