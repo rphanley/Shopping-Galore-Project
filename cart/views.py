@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-
+from .models import UserCart
 
 # Create your views here.
 def view_cart(request):
@@ -15,6 +15,14 @@ def add_to_cart(request, id):
     cart[id] = cart.get(id, quantity)
 
     request.session['cart'] = cart
+
+    #TEST CODE
+    if request.user.is_authenticated():
+            print("User is authenticated, saving cart to database..")
+            (user_cart, _) = UserCart.objects.get_or_create(user=request.user)
+            user_cart.items = cart.items_serializable
+            user_cart.save()
+    #END TEST
 
     return redirect(reverse('index'))
 
