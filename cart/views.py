@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 
+
 # Create your views here.
 def view_cart(request):
     """A View that renders the cart contents page"""
@@ -14,6 +15,7 @@ def add_to_cart(request, id):
     cart[id] = cart.get(id, quantity)
 
     request.session['cart'] = cart
+
     return redirect(reverse('index'))
 
 

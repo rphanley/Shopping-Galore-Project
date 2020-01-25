@@ -30,6 +30,8 @@ def login(request):
             if user:
                 auth.login(request, user)
                 messages.error(request, "You have successfully logged in")
+                #Set default session expiry for a logged in user
+                request.session.set_expiry(1000000)
 
                 if request.GET and request.GET['next'] !='':
                     next = request.GET['next']
