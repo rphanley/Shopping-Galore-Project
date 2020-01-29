@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponseRedirect, get_object_or_404
 from django.contrib import messages, auth
 from django.core.urlresolvers import reverse
 from .forms import UserLoginForm, UserRegistrationForm
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
+from cart.models import Cart, CartItem
+from products.models import Product
 
 
 # Create your views here.
@@ -50,6 +52,7 @@ def login(request):
 @login_required
 def profile(request):
     """A view that displays the profile page of a logged in user"""
+   
     return render(request, 'profile.html')
 
 
@@ -76,3 +79,33 @@ def register(request):
     args = {'user_form': user_form}
     return render(request, 'register.html', args)
     
+
+def restore_cart(request):
+
+    #Look for a saved cart in the database if a user is logged in. Restore it if so.
+    if request.user.is_authenticated:
+        print(request.user.username)
+    else:
+        print("User not authenticated..")
+
+    if Cart.objects.exists():
+        print("Restore cart(s) exist..")
+        for cart in Cart.objects.all():
+            print(str(cart.user))
+            if str(cart.user) == request.user.username:
+                print("Found matching cart..")
+                request.session['cart'] = {}
+                for item in CartItem.objects.filter(cart=cart):
+                    print (item.product)
+                    print (item.quantity)
+                    item_document = {
+                            'cart': cart,
+                            'product': item.product,
+                            'quantity': item.quantity
+                    }
+                    #request.session['cart'][index] = item_document
+                    
+
+        print("Got restore cart..")
+    else:
+        print("No restore cart exists, or Guest user..")

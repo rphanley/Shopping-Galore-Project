@@ -1,9 +1,14 @@
-from django.shortcuts import render, redirect, reverse
-from .models import UserCart
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from django.contrib import messages
+from .models import Cart, CartItem
+from products.models import Product
+
 
 # Create your views here.
 def view_cart(request):
     """A View that renders the cart contents page"""
+    if request.session.get('cart_exists')==False:
+        messages.error(request, "No cart created yet. Search for products to buy and add them to the cart.")
     return render(request, "cart.html")
 
 
@@ -11,18 +16,18 @@ def add_to_cart(request, id):
     """Add a quantity of the specified product to the cart"""
     quantity = int(request.POST.get('quantity'))
 
-    cart = request.session.get('cart', {})
-    cart[id] = cart.get(id, quantity)
+    db_cart, created = Cart.objects.get_or_create(
+            user=request.user
+    )
+    db_cart.save()
+    product = get_object_or_404(Product, pk=id)
+    db_cart_item = CartItem(
+            cart=db_cart,
+            product=product,
+            quantity=quantity
+    )
+    db_cart_item.save()
 
-    request.session['cart'] = cart
-
-    #TEST CODE
-    if request.user.is_authenticated():
-            print("User is authenticated, saving cart to database..")
-            (user_cart, _) = UserCart.objects.get_or_create(user=request.user)
-            user_cart.items = cart.items_serializable
-            user_cart.save()
-    #END TEST
 
     return redirect(reverse('index'))
 
@@ -33,13 +38,21 @@ def adjust_cart(request, id):
     amount
     """
     quantity = int(request.POST.get('quantity'))
-    cart = request.session.get('cart', {})
 
-    if quantity > 0:
-        cart[id] = quantity
-    else:
-        cart.pop(id)
-    
-    request.session['cart'] = cart
+    try:
+        cart = Cart.objects.get(
+                    user=request.user
+        )
+    except Cart.DoesNotExist:
+                    print("No cart exists for user..")
+                    cart=None
+
+    product = get_object_or_404(Product, pk=id)
+    user_cart_items = CartItem.objects.filter(cart=cart)
+    user_cart_item = user_cart_items.get(product=product)
+    user_cart_item.quantity = quantity
+    user_cart_item.save()
+    cart.save()
+
     return redirect(reverse('view_cart'))
     

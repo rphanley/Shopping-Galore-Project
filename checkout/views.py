@@ -6,6 +6,7 @@ from .models import OrderLineItem
 from django.conf import settings
 from django.utils import timezone
 from products.models import Product
+from cart.models import Cart, CartItem
 import stripe
 
 
@@ -23,11 +24,19 @@ def checkout(request):
             order = order_form.save(commit=False)
             order.date = timezone.now()
             order.save()
-            
-            cart = request.session.get('cart', {})
+  
+            try:
+                cart = Cart.objects.get(
+                            user=request.user
+                )
+            except Cart.DoesNotExist:
+                messages.error(request, "No cart created yet!")
+                cart=None
+
             total = 0
-            for id, quantity in cart.items():
-                product = get_object_or_404(Product, pk=id)
+            for item in CartItem.objects.filter(cart=cart):
+                product = item.product
+                quantity = item.quantity
                 total += quantity * product.price
                 order_line_item = OrderLineItem(
                     order = order, 
@@ -48,8 +57,11 @@ def checkout(request):
                 
                 
             if customer.paid:
-                messages.error(request, "You have successfully paid")
-                request.session['cart'] = {}
+                messages.info(request, "You have successfully paid")
+                for item in CartItem.objects.filter(cart=cart):
+                    item.delete()
+
+                cart.delete()
                 return redirect(reverse('products'))
             else:
                 messages.error(request, "Unable to take payment")
@@ -57,8 +69,9 @@ def checkout(request):
             print(payment_form.errors)
             messages.error(request, "We were unable to take a payment with that card!")
     else:
-        payment_form = MakePaymentForm()
-        order_form = OrderForm()
+        if request.session.get('cart_exists'):
+            payment_form = MakePaymentForm()
+            order_form = OrderForm()
         
     return render(request, "checkout.html", {'order_form': order_form, 'payment_form': payment_form, 'publishable': settings.STRIPE_PUBLISHABLE})
                 

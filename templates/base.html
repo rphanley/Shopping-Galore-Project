@@ -39,14 +39,16 @@
 					<li><a href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Log In</a></li>
 					{% endif %}
 
+                    
 					<li>
 						<a href="{% url 'view_cart' %}">
 							<i class="fa fa-shipping-cart"></i>Cart
-							{% if product_count > 0 %}
+                            {% if product_count > 0 %}
 							<label class="badge badge-warning">{{ product_count }}</label>
 							{% endif %}
 						</a>
 					</li>
+                    
 				</ul>
 			</div>
 		</div>
