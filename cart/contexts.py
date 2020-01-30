@@ -9,17 +9,18 @@ def cart_contents(request):
     cart_items = []
     total = 0
     product_count = 0
+    cart=None
+    if request.user.is_authenticated:
+        try:
+            cart = Cart.objects.get(
+                        user=request.user
+            )
+            request.session['cart_exists'] = True
+        except Cart.DoesNotExist:
+                        print("No cart exists for user..")
+                        request.session['cart_exists'] = False
+                        
 
-    try:
-        cart = Cart.objects.get(
-                    user=request.user
-        )
-        request.session['cart_exists'] = True
-    except Cart.DoesNotExist:
-                    print("No cart exists for user..")
-                    request.session['cart_exists'] = False
-                    cart=None
- 
     for item in CartItem.objects.filter(cart=cart):
         test_id = item.product.id
         product = item.product

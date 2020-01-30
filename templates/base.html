@@ -32,7 +32,7 @@
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav navbar-right">
 					{% if user.is_authenticated %}
-					<li><a href="{% url 'profile' %}"><i class="fa fa-user"></i> Profile</a></li>
+					<li><a href="{% url 'profile' %}"><i class="fa fa-user"></i> MyGalore</a></li>
 					<li><a href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Log Out</a></li>
 					{%  else %}
 					<li><a href="{% url 'register' %}"><i class="fa fa-user-plus"></i> Register</a></li>
@@ -54,7 +54,7 @@
 		</div>
 	</nav>
 	{% if messages %}
-	<div class="alert alert-success">
+	<div class="alert alert-info">
 		<div class="messages">
 			{% for message in messages %}
 			{{ message }}

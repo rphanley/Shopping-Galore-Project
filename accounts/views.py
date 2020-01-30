@@ -4,8 +4,10 @@ from django.core.urlresolvers import reverse
 from .forms import UserLoginForm, UserRegistrationForm
 from django.template.context_processors import csrf
 from django.contrib.auth.decorators import login_required
+from checkout.models import Order, OrderLineItem
 from cart.models import Cart, CartItem
 from products.models import Product
+
 
 
 # Create your views here.
@@ -51,9 +53,45 @@ def login(request):
 
 @login_required
 def profile(request):
-    """A view that displays the profile page of a logged in user"""
+    """A view that displays the profile and order history for the logged in user"""
+
+    #Get the order history for the current user
+    try:
+        user_orders = Order.objects.filter(
+                        full_name=request.user  #CHANGE full_name TO OTHER NAME FIELD?
+        )
+           
+    except Order.DoesNotExist:
+        print("No orders exist for user..")
+        user_orders = None
+
+    #Build the userOrders dictionary (sample below) to pass the order history to the profile.html template
+    if user_orders != None:
+        orders =  user_orders
+        listUserOrders = []
+        
+        for single_order in orders:
+            dictUserOrder={}
+            listUserOrder = []
+            order_total = 0
+            for item in OrderLineItem.objects.filter(order=single_order):
+                dictOrderLineItem = {'quantity':str(item.quantity),'product':item.product.name, 'price':str(item.product.price)}
+                order_total += (item.product.price*item.quantity)
+                listUserOrder.append(dictOrderLineItem)
+                
+            
+            dictUserOrder= {'id':single_order.id,'date':str(single_order.date), 'total':str(order_total),'order_lines':listUserOrder}
+            listUserOrders.append(dictUserOrder) 
+
+        # SAMPLE OF userOrders DICTIONARY:
+        # {'id': 15, 'date': '2020-01-29', 'total': '20000.00',
+        #  'order_lines': [{'quantity': '1', 'product': 'Product 1', 'price': '1000.00'},
+        #                  {'quantity': '2', 'product': 'Product 2', 'price': '2000.00'}, 
+        #                  {'quantity': '3', 'product': 'Product 3', 'price': '5000.00'}
+        # ]}      
+        
    
-    return render(request, 'profile.html')
+    return render(request, 'profile.html', {"userOrders": listUserOrders})
 
 
 def register(request):
