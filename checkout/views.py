@@ -23,6 +23,7 @@ def checkout(request):
         if order_form.is_valid() and payment_form.is_valid():
             order = order_form.save(commit=False)
             order.date = timezone.now()
+            order.username = request.user
             order.save()
   
             try:
@@ -57,7 +58,7 @@ def checkout(request):
                 
                 
             if customer.paid:
-                messages.info(request, "You have successfully paid")
+                messages.info(request, "You have successfully paid.")
                 for item in CartItem.objects.filter(cart=cart):
                     item.delete()
 

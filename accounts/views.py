@@ -33,9 +33,17 @@ def login(request):
 
             if user:
                 auth.login(request, user)
-                messages.error(request, "You have successfully logged in")
+                welcome_message = "Welcome back, " + request.user.username + "!"
                 #Set default session expiry for a logged in user
                 request.session.set_expiry(1000000)
+
+                if Cart.objects.exists():
+                    print("Cart(s) exist in database..")
+                    for item in Cart.objects.filter(user=request.user):
+                        welcome_message += " You have an existing cart, click on Cart above to view it."
+
+                messages.info(request, welcome_message)   
+ 
 
                 if request.GET and request.GET['next'] !='':
                     next = request.GET['next']
@@ -58,7 +66,7 @@ def profile(request):
     #Get the order history for the current user
     try:
         user_orders = Order.objects.filter(
-                        full_name=request.user  #CHANGE full_name TO OTHER NAME FIELD?
+                        username=request.user  #CHANGE full_name TO OTHER NAME FIELD?
         )
            
     except Order.DoesNotExist:
@@ -118,32 +126,3 @@ def register(request):
     return render(request, 'register.html', args)
     
 
-def restore_cart(request):
-
-    #Look for a saved cart in the database if a user is logged in. Restore it if so.
-    if request.user.is_authenticated:
-        print(request.user.username)
-    else:
-        print("User not authenticated..")
-
-    if Cart.objects.exists():
-        print("Restore cart(s) exist..")
-        for cart in Cart.objects.all():
-            print(str(cart.user))
-            if str(cart.user) == request.user.username:
-                print("Found matching cart..")
-                request.session['cart'] = {}
-                for item in CartItem.objects.filter(cart=cart):
-                    print (item.product)
-                    print (item.quantity)
-                    item_document = {
-                            'cart': cart,
-                            'product': item.product,
-                            'quantity': item.quantity
-                    }
-                    #request.session['cart'][index] = item_document
-                    
-
-        print("Got restore cart..")
-    else:
-        print("No restore cart exists, or Guest user..")

@@ -3,6 +3,7 @@ from products.models import Product
 
 # Create your models here.
 class Order(models.Model):
+    username = models.CharField(default='user0', max_length=20, blank=False)
     full_name = models.CharField(max_length=50, blank=False)
     phone_number = models.CharField(max_length=20, blank=False)
     country = models.CharField(max_length=40, blank=False)
