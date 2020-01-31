@@ -7,7 +7,7 @@ def all_products(request):
     products = Product.objects.all()
 
     if request.user.is_authenticated:
-        messages.info(request, "Logged in as '" + user_name + "'. You can buy products, or save your shopping cart until you log in again.")
+        messages.info(request, "Logged in as '" + request.user.username + "'. You can buy products, or save your shopping cart until you log in again.")
     else:
         messages.info(request, "Logged in as Guest. You can view products. Register/log in to shop, or save your shopping cart until next time!")
 

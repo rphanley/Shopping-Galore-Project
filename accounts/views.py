@@ -19,7 +19,7 @@ def index(request):
 def logout(request):
     """A view that logs the user out and redirects back to the index page"""
     auth.logout(request)
-    messages.success(request, 'You have successfully logged out')
+    messages.success(request, 'You have logged out. Visit us again soon!')
     return redirect(reverse('index'))
 
 
@@ -51,7 +51,7 @@ def login(request):
                 else:
                     return redirect(reverse('index'))
             else:
-                user_form.add_error(None, "Your username or password are incorrect")
+                user_form.add_error(None, "Sorry..your username or password are incorrect")
     else:
         user_form = UserLoginForm()
 
@@ -114,7 +114,7 @@ def register(request):
 
             if user:
                 auth.login(request, user)
-                messages.success(request, "You have successfully registered")
+                messages.success(request, "You have successfully registered!")
                 return redirect(reverse('index'))
 
             else:

@@ -36,7 +36,7 @@ def add_to_cart(request, id):
             quantity=quantity
     )
     db_cart_item.save()
-
+    messages.info(request, "Added " + str(quantity) + " of " + "'" + product.name + "'" +" to your cart.")
 
     return redirect(reverse('index'))
 
