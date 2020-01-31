@@ -11,6 +11,7 @@
                 <p class="product-description">{{ product.description }}</p>
                 <p>{{ product.price }}</p>
                 
+                {% if request.user.is_authenticated %}
                 <form method="post" action="{% url 'add_to_cart' product.id %}">
                     {% csrf_token %}
                     <div class="input-group">
@@ -20,6 +21,7 @@
                         </span>
                     </div>
                 </form>
+                {% endif %}
 
             </div>
         </div>

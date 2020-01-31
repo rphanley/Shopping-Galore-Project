@@ -6,13 +6,10 @@ from django.contrib import messages
 def all_products(request):
     products = Product.objects.all()
 
-    #If the user has not logged in, set the session to expire in 60 seconds and post a message requesting login.
-    user_name = request.user.username
-    if (user_name == ""):
-        messages.info(request, "Logged in as Guest. You can view products. Register/log in to shop, or save your shopping cart until next time!")
-        request.session.set_expiry(60)
+    if request.user.is_authenticated:
+        messages.info(request, "Logged in as '" + user_name + "'. You can buy products, or save your shopping cart until you log in again.")
     else:
-        messages.info(request, "Logged in as " + user_name + ". You can buy products, or save your shopping cart until you log in again.")
+        messages.info(request, "Logged in as Guest. You can view products. Register/log in to shop, or save your shopping cart until next time!")
 
     return render(request, "products.html", {"products": products})
     

@@ -10,6 +10,8 @@ def cart_contents(request):
     total = 0
     product_count = 0
     cart=None
+    request.session['cart_exists'] = False
+    
     if request.user.is_authenticated:
         try:
             cart = Cart.objects.get(
@@ -18,8 +20,9 @@ def cart_contents(request):
             request.session['cart_exists'] = True
         except Cart.DoesNotExist:
                         print("No cart exists for user..")
-                        request.session['cart_exists'] = False
                         
+
+              
 
     for item in CartItem.objects.filter(cart=cart):
         test_id = item.product.id
