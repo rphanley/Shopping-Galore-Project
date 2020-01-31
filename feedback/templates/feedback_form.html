@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+ 
+{% block content %} 
+</br>
+</br>
+<h3>Feedback Form</h3>
+ <h5>Select a product from the list, and enter your feedback below.</h5>
+ 
+
+<form action="{% url 'feedback_form' %}" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <h5>Please enter a rating for the product between 0 and 5.</h5>
+
+    <input type="submit" />
+</form>
+{% endblock %}

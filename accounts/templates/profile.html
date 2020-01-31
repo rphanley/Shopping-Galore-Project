@@ -16,7 +16,7 @@
 
 	{% for order in userOrders %}
 	</br>
-	<h3 class="text-success">&emsp;Order ID: {{ order.id }} &emsp;&emsp; Order Date: {{ order.date }}</h3>
+	<h3 class="text-success"><div>Order ID: {{ order.id }}</div>  <div>Order Date: {{ order.date }}</div></h3>
 
 	<table class="table">
 		<thead class="thead-dark">
@@ -31,7 +31,7 @@
 			{% for lineitem in order.order_lines %}
 			<tr>
 				<td>{{ lineitem.quantity }}</td>
-				<td>{{ lineitem.product }}</td>
+				<td><a href="{% url 'feedback_form' lineitem.product %}">{{ lineitem.product }}</a></td>
 				<td>{{ lineitem.price }}</td>
 				{% if forloop.last %}
 				<td>{{ order.total }}</td>
