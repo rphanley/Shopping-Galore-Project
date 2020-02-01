@@ -31,7 +31,7 @@
 			{% for lineitem in order.order_lines %}
 			<tr>
 				<td>{{ lineitem.quantity }}</td>
-				<td><a href="{% url 'feedback_form' lineitem.product %}">{{ lineitem.product }}</a></td>
+				<td><a href="{% url 'feedback_form' %}">{{ lineitem.product }}</a></td>
 				<td>{{ lineitem.price }}</td>
 				{% if forloop.last %}
 				<td>{{ order.total }}</td>

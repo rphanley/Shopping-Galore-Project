@@ -3,14 +3,19 @@ from .forms import FeedbackForm
 from products.models import Product
 
 # Create your views here.
-def feedback_form(request, id):
-    print(id)
+def feedback_form(request):
     if request.method == 'POST':
         form = FeedbackForm(request.POST)
  
         if form.is_valid():
+            print("Here's your product..")
+            print (form.cleaned_data['product'])
+          
             form.save()
+        
             return render(request, 'confirm.html')
+
     else:
-        form = FeedbackForm(initial={'product': id})
-    return render(request, 'feedback_form.html', {'form': form})
+        form = FeedbackForm()
+        
+    return render(request, 'feedback_form.html', {'form': form, })
