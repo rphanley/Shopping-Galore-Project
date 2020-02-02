@@ -7,7 +7,6 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=8, decimal_places=2)
     image = models.ImageField(upload_to='images')
-    topseller = models.BooleanField(default=False)
     rating = models.DecimalField(max_digits=2, decimal_places=1,
                                  validators=[MinValueValidator(0),
                                              MaxValueValidator(5)])

@@ -54,10 +54,8 @@ def adjust_cart(request, id):
                         user=request.user
             )
         except Cart.DoesNotExist:
-                        print("No cart exists for user..")
-                        cart=None
-    
-
+                        cart = None
+   
     product = get_object_or_404(Product, pk=id)
     user_cart_items = CartItem.objects.filter(cart=cart)
     user_cart_item = user_cart_items.get(product=product)

@@ -9,28 +9,25 @@ def feedback_form(request):
         form = FeedbackForm(request.POST)
  
         if form.is_valid():
-            print("Here's your product..")
-            prod=(form.cleaned_data['product'])
-            this_session_rating=(form.cleaned_data['rating'])
+            feedback_product = (form.cleaned_data['product'])
+            feedback_rating = (form.cleaned_data['rating'])
 
             if request.user.is_authenticated:
-                prod_feedback = Feedback.objects.filter(product=prod)
-                num_prod_feedbacks=(prod_feedback.count())
-                total_rating=0
-                for item in prod_feedback:
-                    print(str(item.rating))
-                    total_rating+=item.rating
+                product = get_object_or_404(Product, name=feedback_product)
+                current_rating = product.rating
+                print(current_rating)
+                if current_rating > 0:
+                    new_rating = (current_rating + feedback_rating)/2
+                else:
+                    new_rating = feedback_rating
 
-                total_rating+=this_session_rating
-                average_rating = total_rating/(num_prod_feedbacks+1)
-                average_rating = round(average_rating,1)
+                product.rating = round(new_rating, 1)
+                print("New product rating is " + str(product.rating))
+                product.save()
                 
-                print("Average rating is " + str(average_rating))
+                
 
-                #prod_feedback = all_feedback.objects.filter(product=product)
-                
-                    #print(feedback.product)
-                    #print(feedback.rating)
+   
     
         
 
