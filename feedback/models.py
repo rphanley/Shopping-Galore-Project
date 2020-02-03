@@ -2,6 +2,7 @@ from django.db import models
 from products.models import Product
 from django.core.validators import MinValueValidator, MaxValueValidator
 
+
 # Create your models here.
 class Feedback(models.Model):
     product = models.ForeignKey(Product)

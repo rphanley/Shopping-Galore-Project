@@ -13,6 +13,7 @@ class CaseInsensitiveAuth:
     This will ensure all usernames have unique spellings, and as a result,
     our case insensitive query will return a single result only.
     """
+
     def authenticate(self, username_or_email=None, password=None):
         """
         Get an instance of User using the supplied username
@@ -43,4 +44,3 @@ class CaseInsensitiveAuth:
             return None
         except User.DoesNotExist:
             return None
-            

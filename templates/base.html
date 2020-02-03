@@ -12,7 +12,7 @@
 	<link rel="stylesheet" href="{% static 'css/custom.css' %}">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    {% block head_js %}
+	{% block head_js %}
 	{% endblock head_js %}
 </head>
 
@@ -39,16 +39,16 @@
 					<li><a href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Log In</a></li>
 					{% endif %}
 
-                    
+
 					<li>
 						<a href="{% url 'view_cart' %}">
 							<i class="fa fa-shipping-cart"></i>Cart
-                            {% if product_count > 0 %}
+							{% if product_count > 0 %}
 							<label class="badge badge-warning">{{ product_count }}</label>
 							{% endif %}
 						</a>
 					</li>
-                    
+
 				</ul>
 			</div>
 		</div>
@@ -76,6 +76,6 @@
 			<p>Galore ecommerce web application by Rory Hanley</p>
 		</div>
 	</footer>
- </body>
+</body>
 
 </html>

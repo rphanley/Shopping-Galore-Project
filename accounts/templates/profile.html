@@ -6,8 +6,14 @@
 </br>
 </br>
 <h1>Your Order History</h1>
+
+<!-- Button linking to a feedback form to allow users to comment on and rate products they have bought -->
+<a href="{% url 'feedback_form' %}" class="btn btn-primary pull-right"
+	role="button"><span class="glyphicon glyphicon-comment" aria-hidden="true"></span> Give product feedback</a>
+
+
 <div class="container">
-    <!-- SAMPLE OF userOrders DICTIONARY:
+	<!-- SAMPLE OF userOrders DICTIONARY:
     {'id': 15, 'date': '2020-01-29', 'total': '20000.00',
      'order_lines': [{'quantity': '1', 'product': 'Product 1', 'price': '1000.00'},
                      {'quantity': '2', 'product': 'Product 2', 'price': '2000.00'}, 
@@ -16,7 +22,10 @@
 
 	{% for order in userOrders %}
 	</br>
-	<h3 class="text-success"><div>Order ID: {{ order.id }}</div>  <div>Order Date: {{ order.date }}</div></h3>
+	<h3 class="text-success">
+		<div>Order ID: {{ order.id }}</div>
+		<div>Order Date: {{ order.date }}</div>
+	</h3>
 
 	<table class="table">
 		<thead class="thead-dark">
@@ -31,7 +40,7 @@
 			{% for lineitem in order.order_lines %}
 			<tr>
 				<td>{{ lineitem.quantity }}</td>
-				<td><a href="{% url 'feedback_form' %}">{{ lineitem.product }}</a></td>
+				<td>{{ lineitem.product }}</td>
 				<td>{{ lineitem.price }}</td>
 				{% if forloop.last %}
 				<td>{{ order.total }}</td>

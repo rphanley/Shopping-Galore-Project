@@ -1,9 +1,10 @@
 from django.db import models
 from products.models import Product
 
+
 # Create your models here.
 class Order(models.Model):
-    username = models.CharField(default='user0', max_length=20, blank=False)
+    username = models.CharField(max_length=20, blank=False)
     full_name = models.CharField(max_length=50, blank=False)
     phone_number = models.CharField(max_length=20, blank=False)
     country = models.CharField(max_length=40, blank=False)
@@ -25,5 +26,4 @@ class OrderLineItem(models.Model):
 
     def __str__(self):
         return "{0} {1} @ {2}".format(
-            self.quantity, self.product.name, self.product.price) 
-            
+            self.quantity, self.product.name, self.product.price)

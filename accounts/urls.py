@@ -1,7 +1,7 @@
 from django.conf.urls import url, include
 from accounts import urls_reset
 from .views import index, register, profile, logout, login
-from feedback.views import feedback_form
+
 
 urlpatterns = [
     url(r'^$', index, name="index"),
