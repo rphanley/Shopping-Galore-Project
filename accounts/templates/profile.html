@@ -5,6 +5,8 @@
 <h4>Your email address is: <span class="text-success"> {{ request.user.email }}</span></h4>
 </br>
 </br>
+<!-- Show order history and feedback button, if the user has an order history. -->
+{% if userOrders|length > 0 %}
 <h1>Your Order History</h1>
 
 <!-- Button linking to a feedback form to allow users to comment on and rate products they have bought -->
@@ -14,11 +16,11 @@
 
 <div class="container">
 	<!-- SAMPLE OF userOrders DICTIONARY:
-    {'id': 15, 'date': '2020-01-29', 'total': '20000.00',
-     'order_lines': [{'quantity': '1', 'product': 'Product 1', 'price': '1000.00'},
-                     {'quantity': '2', 'product': 'Product 2', 'price': '2000.00'}, 
-                     {'quantity': '3', 'product': 'Product 3', 'price': '5000.00'}
-    ]} -->
+            {'id': 15, 'date': '2020-01-29', 'total': '20000.00',
+            'order_lines': [{'quantity': '1', 'product': 'Product 1', 'price': '1000.00'},
+                            {'quantity': '2', 'product': 'Product 2', 'price': '2000.00'}, 
+                            {'quantity': '3', 'product': 'Product 3', 'price': '5000.00'}
+            ]} -->
 
 	{% for order in userOrders %}
 	</br>
@@ -50,4 +52,9 @@
 		</tbody>
 	</table>
 	{% endfor %}
+
+	{% else %}
+	    <h1>No order history yet.</h1>
+	{% endif %}
+
 	{% endblock %}

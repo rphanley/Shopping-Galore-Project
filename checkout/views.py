@@ -1,6 +1,7 @@
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from accounts.views import clear_messages
 from .forms import MakePaymentForm, OrderForm
 from .models import OrderLineItem
 from django.conf import settings
@@ -16,6 +17,7 @@ stripe.api_key = settings.STRIPE_SECRET
 
 @login_required()
 def checkout(request):
+    clear_messages(request)
     if request.method == "POST":
         order_form = OrderForm(request.POST)
         payment_form = MakePaymentForm(request.POST)
@@ -57,7 +59,8 @@ def checkout(request):
                 messages.error(request, "Your card was declined!")
 
             if customer.paid:
-                messages.info(request, "You have successfully paid.")
+                clear_messages(request)
+                messages.error(request, "You have successfully paid!")
                 for item in CartItem.objects.filter(cart=cart):
                     item.delete()
 

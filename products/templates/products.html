@@ -9,7 +9,7 @@
 
 			<h3>{{ product.name }}</h3>
 			<p class="product-description">{{ product.description }}</p>
-			<p>{{ product.price }}</p>
+			<p><span class="glyphicon glyphicon-euro" aria-hidden="true">{{ product.price }}</p>
 
 			{% if request.user.is_authenticated %}
 			<form method="post" action="{% url 'add_to_cart' product.id %}">

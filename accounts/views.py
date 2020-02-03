@@ -31,15 +31,13 @@ def login(request):
             if user:
                 auth.login(request, user)
                 welcome_message = "Welcome back, " + request.user.username + "!"
-                # Set default session expiry for a logged in user
-                request.session.set_expiry(1000000)
+
 
                 if Cart.objects.exists():
-                    print("Cart(s) exist in database..")
                     for item in Cart.objects.filter(user=request.user):
                         welcome_message += " You have an existing cart, click on Cart above to view it."
 
-                messages.info(request, welcome_message)
+                messages.error(request, welcome_message)
 
                 if request.GET and request.GET['next'] != '':
                     next = request.GET['next']
@@ -67,7 +65,6 @@ def profile(request):
         )
 
     except Order.DoesNotExist:
-        print("No orders exist for user..")
         user_orders = None
 
     # Build the userOrders dictionary (sample below) to pass the order history to the profile.html template
@@ -105,6 +102,7 @@ def register(request):
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             user_form.save()
+            clear_messages(request)
 
             user = auth.authenticate(request.POST.get('email'),
                                      password=request.POST.get('password1'))
@@ -121,3 +119,8 @@ def register(request):
 
     args = {'user_form': user_form}
     return render(request, 'register.html', args)
+
+
+def clear_messages(request):
+    storage = messages.get_messages(request)
+    storage.used = True

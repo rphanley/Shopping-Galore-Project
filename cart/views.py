@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
+from accounts.views import clear_messages
 from .models import Cart, CartItem
 from products.models import Product
 
@@ -7,7 +8,7 @@ from products.models import Product
 # Create your views here.
 def view_cart(request):
     """A View that renders the cart contents page"""
-
+    clear_messages(request)
     if request.user.is_authenticated and not request.session.get('cart_exists'):
         messages.error(
             request, "No cart created yet. Search for products to buy and add them to the cart.")
@@ -36,7 +37,7 @@ def add_to_cart(request, id):
         quantity=quantity
     )
     db_cart_item.save()
-    messages.info(request, "Added " + str(quantity) + " of " +
+    messages.error(request, "Added " + str(quantity) + " of " +
                   "'" + product.name + "'" + " to your cart.")
 
     return redirect(reverse('index'))

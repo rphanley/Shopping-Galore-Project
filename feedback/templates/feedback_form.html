@@ -10,7 +10,7 @@
 <form action="{% url 'feedback_form' %}" method="POST" class="form-group has-feedback">
 	{% csrf_token %}
 	{{ form.as_p }}
-	<h5>Please enter a rating for the product between 0 and 5, for example '4.2'.</h5>
+	<h5>Please enter a rating for the product between 0 and 5, for example 4.2</h5>
 
 	<input type="submit" />
 </form>
