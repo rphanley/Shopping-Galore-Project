@@ -1,13 +1,15 @@
+"""checkout view"""
 from django.shortcuts import render, reverse, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from accounts.views import clear_messages
-from .forms import MakePaymentForm, OrderForm
-from .models import OrderLineItem
 from django.conf import settings
 from django.utils import timezone
+from accounts.views import clear_messages
 from cart.models import Cart, CartItem
 import stripe
+from .forms import MakePaymentForm, OrderForm
+from .models import OrderLineItem
+
 
 
 # Create your views here.
@@ -17,6 +19,7 @@ stripe.api_key = settings.STRIPE_SECRET
 
 @login_required()
 def checkout(request):
+    """Handle address and credit card details input for cart checkout"""
     clear_messages(request)
     if request.method == "POST":
         order_form = OrderForm(request.POST)
@@ -77,4 +80,6 @@ def checkout(request):
             payment_form = MakePaymentForm()
             order_form = OrderForm()
 
-    return render(request, "checkout.html", {'order_form': order_form, 'payment_form': payment_form, 'publishable': settings.STRIPE_PUBLISHABLE})
+    return render(request, "checkout.html",
+                  {'order_form': order_form, 'payment_form': payment_form,
+                   'publishable': settings.STRIPE_PUBLISHABLE})

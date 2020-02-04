@@ -1,3 +1,4 @@
+"""Layout of the Admin page for the Feedback model"""
 from django.contrib import admin
 from .models import Feedback
 

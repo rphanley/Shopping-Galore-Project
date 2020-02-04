@@ -1,10 +1,11 @@
+"""accounts.views, all account handling and the clear_messages function"""
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.contrib import messages, auth
 from django.core.urlresolvers import reverse
-from .forms import UserLoginForm, UserRegistrationForm
 from django.contrib.auth.decorators import login_required
 from checkout.models import Order, OrderLineItem
 from cart.models import Cart
+from .forms import UserLoginForm, UserRegistrationForm
 
 
 # Create your views here.
@@ -33,9 +34,8 @@ def login(request):
                 welcome_message = "Welcome back, " + request.user.username + "!"
 
 
-                if Cart.objects.exists():
-                    for item in Cart.objects.filter(user=request.user):
-                        welcome_message += " You have an existing cart, click on Cart above to view it."
+                if Cart.objects.filter(user=request.user).exists():
+                    welcome_message += " You have an existing cart, click on Cart above to view it."
 
                 messages.error(request, welcome_message)
 
@@ -43,7 +43,7 @@ def login(request):
                     next = request.GET['next']
                     return HttpResponseRedirect(next)
                 else:
-                    return redirect(reverse('index'))
+                    return redirect(reverse('products'))
             else:
                 user_form.add_error(
                     None, "Sorry..your username or password are incorrect")
@@ -70,21 +70,21 @@ def profile(request):
     # Build the userOrders dictionary (sample below) to pass the order history to the profile.html template
     if user_orders != None:
         orders = user_orders
-        listUserOrders = []
+        list_user_orders = []
 
         for single_order in orders:
-            dictUserOrder = {}
-            listUserOrder = []
+            dict_user_order = {}
+            list_user_order = []
             order_total = 0
             for item in OrderLineItem.objects.filter(order=single_order):
-                dictOrderLineItem = {'quantity': str(
+                dict_order_line_item = {'quantity': str(
                     item.quantity), 'product': item.product.name, 'price': str(item.product.price)}
                 order_total += (item.product.price*item.quantity)
-                listUserOrder.append(dictOrderLineItem)
+                list_user_order.append(dict_order_line_item)
 
-            dictUserOrder = {'id': single_order.id, 'date': str(
-                single_order.date), 'total': str(order_total), 'order_lines': listUserOrder}
-            listUserOrders.append(dictUserOrder)
+            dict_user_order = {'id': single_order.id, 'date': str(
+                single_order.date), 'total': str(order_total), 'order_lines': list_user_order}
+            list_user_orders.append(dict_user_order)
 
         # SAMPLE OF userOrders DICTIONARY:
         # {'id': 15, 'date': '2020-01-29', 'total': '20000.00',
@@ -93,7 +93,7 @@ def profile(request):
         #                  {'quantity': '3', 'product': 'Product 3', 'price': '5000.00'}
         # ]}
 
-    return render(request, 'profile.html', {"userOrders": listUserOrders})
+    return render(request, 'profile.html', {"userOrders": list_user_orders})
 
 
 def register(request):
@@ -110,7 +110,7 @@ def register(request):
             if user:
                 auth.login(request, user)
                 messages.success(request, "You have successfully registered!")
-                return redirect(reverse('index'))
+                return redirect(reverse('products'))
 
             else:
                 messages.error(request, "unable to log you in at this time!")

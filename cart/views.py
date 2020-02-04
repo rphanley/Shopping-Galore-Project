@@ -1,8 +1,10 @@
+"""Views for view, add, and adjust cart items"""
 from django.shortcuts import render, redirect, reverse, get_object_or_404
 from django.contrib import messages
 from accounts.views import clear_messages
-from .models import Cart, CartItem
 from products.models import Product
+from .models import Cart, CartItem
+
 
 
 # Create your views here.
@@ -38,9 +40,9 @@ def add_to_cart(request, id):
     )
     db_cart_item.save()
     messages.error(request, "Added " + str(quantity) + " of " +
-                  "'" + product.name + "'" + " to your cart.")
+                   "'" + product.name + "'" + " to your cart.")
 
-    return redirect(reverse('index'))
+    return redirect(reverse('products'))
 
 
 def adjust_cart(request, id):

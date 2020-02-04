@@ -1,9 +1,10 @@
+"""Order detail form and credit card payment form"""
 from django import forms
 from .models import Order
 
 
 class MakePaymentForm(forms.Form):
-
+    """For entering credit card details"""
     MONTH_CHOICES = [(i, i) for i in range(1, 12)]
     YEAR_CHOICES = [(i, i) for i in range(2020, 2040)]
 
@@ -18,7 +19,7 @@ class MakePaymentForm(forms.Form):
 
 
 class OrderForm(forms.ModelForm):
-
+    """for entering address details of the order"""
     class Meta:
         model = Order
         fields = (

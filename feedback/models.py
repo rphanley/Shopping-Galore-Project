@@ -5,6 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 # Create your models here.
 class Feedback(models.Model):
+    """Structure of the Feedback database model for handling product feedback"""
     product = models.ForeignKey(Product)
     user_name = models.CharField(max_length=120)
     email = models.EmailField()

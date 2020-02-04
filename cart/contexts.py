@@ -1,3 +1,4 @@
+"""A view that makes all cart contents accessible from other apps"""
 from cart.models import Cart, CartItem
 
 
