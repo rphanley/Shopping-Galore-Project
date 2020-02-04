@@ -122,5 +122,6 @@ def register(request):
 
 
 def clear_messages(request):
+    """Clear the message string before displaying a new message in the next view"""
     storage = messages.get_messages(request)
     storage.used = True
