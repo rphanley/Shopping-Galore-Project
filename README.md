@@ -3,7 +3,7 @@
 # Milestone project 4: Shopping-Galore Project
 
 Shopping-Galore is a full-stack ecommerce website. It allows authenticated users to browse and search for listed products, add them to a cart, checkout and pay. On the frontend, it uses HTML, CSS, Bootstrap and Javascript to render the pages and handle user input. It uses the Python-based Django framework as backend. The model data is stored in a Postgres relational database hosted with the site on Heroku. Static data, such as product pictures and styling, are hosted on an Amazon S3 bucket.  Payment is made via Stripe using a dummy credit card transaction. 
-New visitors to the site can browse and/or search for products. But to create a shopping cart and checkout, they must register and log in to the site. The advantage of having a login is that the user can then save the cart before checkout. They can log out and return to the site on the same or other device. Their shopping cart is persisted until they checkout. Once thay have made some purchases, they can view their profile, including their user information and order history. They can give feedback on products via a form and rate them. 
+New visitors to the site can browse and/or search for products. But to create a shopping cart and checkout, they must register and log in to the site. The advantage of having a login is that the user can then save the cart before checkout. They can log out and return to the site on the same or other device. Their shopping cart is persisted until they checkout. Once they have made some purchases, they can view their profile, including their user information and order history. They can give feedback on products via a form and rate them. 
  
 
  
@@ -108,7 +108,7 @@ There is a message area at the top left of each page, under the navbar. This is 
 - This project uses **HTML** for basic layout and text, and **CSS** for styling the content.
 
 - [Django](https://www.djangoproject.com/)
-    - This project uses Django as a web framework to ease the creation of this database driven website. Django is based on the Python programming language, and is free to use and open source. It focuses on reusability of code (the 'don't repeat yourself or DRY principle) and allows rapid development with clean design and less code. It can be seen as having a 'Model View Controller (MVC)' architecture in that is has database handling (model), a method of handling HTTP requests with a templating system ('Views') and a dispatcher for URL's (controller). It is 'batteries included' in that it includes among others,  commonly used authentication features, and an admin system for editing the database models and content for a website. 
+    - This project uses Django as a web framework to ease the creation of this database driven website. Django is based on the Python programming language, and is free to use and open source. It focuses on reusability of code (the 'don't repeat yourself or DRY principle) and allows rapid development with clean design and less code. It can be seen as having a 'Model View Controller (MVC)' architecture in that it has database handling (model), a method of handling HTTP requests with a templating system ('Views') and a dispatcher for URL's (controller). It is 'batteries included' in that it includes among others,  commonly used authentication features, and an admin system for editing the database models and content for a website. 
 	
 - **Javascript** is used to connect to Stripe for payments procesing, and the frontend logic around the order form.
 
