@@ -1,0 +1,7 @@
+env.py
+.theia/
+__pycache__/
+db.sqlite3
+*.png
+*.jpg
+media/
